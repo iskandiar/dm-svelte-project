@@ -1,25 +1,22 @@
 <script>
-  import { createEventDispatcher } from 'svelte';
-
-  const dispatch = createEventDispatcher();
+  export let tweetId;
+  import { tweets } from './store.js'
 
   let text = '';
 
   function handleClick() {
-    submit()
+    create()
   }
 
-  function submit() {
-    dispatch('submitComment', {
-      text
-    });
+  async function create() {
+    await tweets.createComment(tweetId, text)
 
     text = '';
   }
 
   function handleKeydown(event) {
     if (event.key === 'Enter' && isValid) {
-      submit()
+      create()
     }
   }
 

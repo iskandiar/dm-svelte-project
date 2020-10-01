@@ -1,26 +1,16 @@
 <script>
-  export let likedByMe, isAuthor, comments = [];
+  export let id, likedByMe, isAuthor, comments = [];
 
-  import { createEventDispatcher } from 'svelte';
+  import { tweets } from './store.js'
 
   import Comment from './Comment.svelte'
   import NewComment from './NewComment.svelte'
 
-  const dispatch = createEventDispatcher();
-
   let collapsed = true
-
-  function handleDislike() {
-    dispatch('dislike')
-  }
-
-  function handleLike() {
-    dispatch('like')
-  }
 
   function handleRemove() {
     if (window.confirm("Do you really want to remove this tweet?")) {
-      dispatch('remove')
+      tweets.remove(id)
     }
   }
 </script>
@@ -32,11 +22,11 @@
   -
   <span>
     {#if likedByMe}
-      <span class="text-red-400 cursor-pointer" on:click={handleDislike}>
+      <span class="text-red-400 cursor-pointer" on:click={tweets.dislike(id)}>
         Dislike!
       </span>
     {:else}
-      <span class="text-green-600 cursor-pointer" on:click={handleLike}>
+      <span class="text-green-600 cursor-pointer" on:click={tweets.like(id)}>
         Like!
       </span>
     {/if}
@@ -55,8 +45,8 @@
       createdAgo={comment.createdAgo}
       comments={comment.comments}
       isAuthor={comment.isAuthor}
-      id={comment.id}
-      on:removeComment/>
+      tweetId={id}
+      id={comment.id}/>
   {/each}
-  <NewComment on:submitComment/>
+  <NewComment tweetId={id}/>
 {/if}

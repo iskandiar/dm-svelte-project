@@ -1,15 +1,11 @@
 <script>
-  export let author, createdAgo, text, isAuthor, id;
+  export let author, createdAgo, text, isAuthor, id, tweetId;
 
-  import { createEventDispatcher } from 'svelte';
-
-  const dispatch = createEventDispatcher();
+   import { tweets } from './store.js'
 
   function handleRemove() {
     if (window.confirm("Do you really want to remove this comment?")) {
-      dispatch('removeComment', {
-        id
-      })
+      tweets.removeComment(tweetId, id)
     }
   }
 </script>

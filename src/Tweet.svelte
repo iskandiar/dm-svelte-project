@@ -1,5 +1,5 @@
 <script>
-  export let author, createdAgo, text, comments, isAuthor, likedByMe;
+  export let author, createdAgo, text, comments, isAuthor, likedByMe, id;
 
   import TweetActions from './TweetActions.svelte'
 
@@ -14,6 +14,6 @@
     <div class="text-left py-2 ">
       {text}
     </div>
-    <TweetActions {comments} {isAuthor} {likedByMe} on:like on:dislike on:remove on:submitComment on:removeComment />
+    <TweetActions {comments} {isAuthor} {likedByMe} {id}/>
   </div>
 </div>
