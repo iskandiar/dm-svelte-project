@@ -1,6 +1,6 @@
 <script>
   export let tweetId;
-  import { tweets } from './store.js'
+  import { tweets } from './../store.js'
 
   let text = '';
 

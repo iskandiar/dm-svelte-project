@@ -1,7 +1,7 @@
 <script>
   export let author, createdAgo, text, isAuthor, id, tweetId;
 
-   import { tweets } from './store.js'
+   import { tweets } from './../store.js'
 
   function handleRemove() {
     if (window.confirm("Do you really want to remove this comment?")) {

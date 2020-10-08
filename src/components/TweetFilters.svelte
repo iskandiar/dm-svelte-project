@@ -1,5 +1,5 @@
 <script>
-  import { activeFilter } from './store.js'
+  import { activeFilter } from './../store.js'
 
   function setFilter(name) {
     activeFilter.set(name)

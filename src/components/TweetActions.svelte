@@ -1,7 +1,7 @@
 <script>
   export let id, likedByMe, isAuthor, comments = [];
 
-  import { tweets } from './store.js'
+  import { tweets } from './../store.js'
 
   import Comment from './Comment.svelte'
   import NewComment from './NewComment.svelte'

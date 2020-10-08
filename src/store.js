@@ -5,25 +5,33 @@ import { fetchTweets, create, like, dislike, remove, createComment, removeCommen
 export const isLoading = writable(false)
 export const activeFilter = writable('ALL')
 
+const loadingWrapper = async apiCall => {
+  isLoading.set(true)
+
+  const response = await apiCall()
+
+  isLoading.set(false)
+
+  return response
+}
+
 function createTweetsStore() {
   const { subscribe, set, update } = writable([])
 
 	return {
     subscribe,
     init: async() => {
-      isLoading.set(true)
-      const data = await fetchTweets()
+      const data = await loadingWrapper(fetchTweets)
 
-      isLoading.set(false)
       set(data)
     },
 		create: async (text) => {
-      const response = await create(text)
+      const response = await loadingWrapper(() => create(text))
   
       update(data => [response, ...data])
     },
     like: async (id) => {
-      await like(id)
+      await loadingWrapper(() => like(id))
 
       update(data => data.map(d => {
         if (d.id === id) d.likedByMe = true
@@ -32,7 +40,7 @@ function createTweetsStore() {
       }))
     },
     dislike: async (id) => {
-      await dislike(id)
+      await loadingWrapper(() => dislike(id))
 
       update(data => data.map(d => {
         if (d.id === id) d.likedByMe = false
@@ -41,12 +49,12 @@ function createTweetsStore() {
       }))
     },
     remove: async (id) => {
-      await remove(id)
+      await loadingWrapper(() => remove(id))
 
       update(data => data.filter(d => d.id !== id))
     },
     createComment: async (tweetId, text) => {
-      const response = await createComment(tweetId, text)
+      const response = await loadingWrapper(() => createComment(tweetId, text))
 
       update(data => data.map(d => {
         if(d.id === tweetId) {
@@ -57,8 +65,7 @@ function createTweetsStore() {
       }))
     },
     removeComment: async (tweetId, id) => {
-      await removeComment(tweetId, id)
-
+      await loadingWrapper(() => removeComment(tweetId, id))
 
       update(data => data.map(d => {
         if (d.id === tweetId) {
